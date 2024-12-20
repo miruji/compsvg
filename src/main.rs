@@ -5,6 +5,7 @@
 use std::fs::File;
 use std::io::{Read, Write};
 use std::env;
+use std::path::Path;
 use zstd::stream::Encoder;
 
 fn compress(inputPath: &str, outputPath: &str) -> std::io::Result<()> 
@@ -30,18 +31,16 @@ fn main()
 {
   let args: Vec<String> = env::args().collect();
 
-  match args.len() != 3 
+  if args.len() != 2
   {
-    false => {}
-    true => 
-    {
-      eprintln!("[Help] compsvg <input_file> <output_file_base>");
-      return;
-    }
+    eprintln!("[Help] compsvg <input_file>");
+    return;
   }
 
   let inputPath: &str = &args[1];
-  let outputPath: String = format!("{}.zst", args[2]);
+  
+  // Генерация имени для выходного файла с заменой расширения на .zst
+  let outputPath: String = format!("{}", Path::new(inputPath).with_extension("zst").display());
 
   match compress(inputPath, &outputPath) 
   {
