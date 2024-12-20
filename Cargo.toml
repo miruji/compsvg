@@ -1,0 +1,22 @@
+[package]
+name = "compsvg"
+version = "0.1.0"
+edition = "2021"
+authors = ["miruji <miruji@protonmail.com>"]
+description = "Compress SVG"
+license-file = "LICENCE"
+readme = "README.md"
+
+[dependencies]
+zstd = "0.11"
+
+[profile.release]
+opt-level = 3
+codegen-units = 1
+lto = "fat"
+panic = "abort"
+strip = "symbols"
+overflow-checks = false
+debug  = false
+incremental = true
+rpath = false
